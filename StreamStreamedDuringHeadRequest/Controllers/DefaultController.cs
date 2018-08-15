@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using StreamStreamedDuringHeadRequest.IO;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -15,6 +16,7 @@ namespace StreamStreamedDuringHeadRequest.Controllers
         {
             var response = Request.CreateResponse();
             var (stream, encoding) = GetStream();
+            stream = new LoggingWrappingStream(stream);
             response.Content = new StreamContent(stream);
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("text/plain")
             {
